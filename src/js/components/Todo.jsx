@@ -45,6 +45,23 @@ const Todo = () => {
             alert(error)
         })
     }
+    function deleter (taskId) {
+        fetch(`https://playground.4geeks.com/todo/todos/${taskId}`, {
+            method: 'DELETE',
+        })
+        .then((response) => {
+            if (response.ok === false) {
+                throw new Error("Error al borrar datos") 
+            }
+            return response.text();
+        }) 
+        .then(() => {
+            setList(prevList => prevList.filter(task => task.id !== taskId));
+        }) 
+        .catch((error) => {
+            alert(error)
+        })
+    }
     function grabber (e) {
         const newValue = e.target.value;
         setInputValue(newValue);
@@ -66,7 +83,9 @@ const Todo = () => {
             <div>
                 <ul>
                     {list.map((element, index) => {
-                        return <li key={element.id || index}>{element.label}</li>
+                        return (<li key={element.id || index}>{element.label}
+                                <button type="button" className="btn btn-danger" onClick={() => deleter(element.id)}>x</button>
+                        </li>)
                     })}
                 </ul>
             </div>
