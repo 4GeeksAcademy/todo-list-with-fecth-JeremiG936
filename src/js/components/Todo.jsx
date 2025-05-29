@@ -38,7 +38,7 @@ const Todo = () => {
             return response.json();
         })
         .then((data) => {
-            setList(data.todos)
+            setList([...list, data])
             setInputValue(""); 
         })
         .catch((error) => {
